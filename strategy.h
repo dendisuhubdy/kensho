@@ -14,7 +14,6 @@ enum decision {N=0,BUY, SELL};
 
 class strategy {
 public:
-	strategy();
 	void init(double lowerbound_init, double upperbound_init);
 	void trade(double *pricepath);
 	decision order[PATHMAX];

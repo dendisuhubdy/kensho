@@ -10,8 +10,7 @@
 class portfolio {
 public:
 	void init(double investment, decision *order);
-	int sharesheld(double portfolioval, double price);
-    void countportreturn(double *pricepath);
+    void countportreturn(decision *order, double *pricepath);
     void inventory(decision *order);
     double cummulativereturn[PATHMAX];
     double dailyreturn[PATHMAX];

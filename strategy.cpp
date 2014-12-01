@@ -1,11 +1,6 @@
 
 #include "strategy.h"
 
-strategy::strategy()
-{
-
-}
-
 void strategy::init(double lowerbound_init, double upperbound_init)
 {
 	lowerbound = lowerbound_init;
