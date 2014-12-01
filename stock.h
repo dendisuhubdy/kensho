@@ -5,7 +5,8 @@
 #ifndef STOCK_H
 #define STOCK_H
 
-#define MAX 260
+#define RANDOMMAX 15
+#define PATHMAX 260
 
 #include <cmath>
 
@@ -14,7 +15,7 @@ public:
 	stock();
 	double price(int time);
 	void generatepicepaths();
-	double pricepath[MAX];
+	double pricepath[PATHMAX];
 private:
 	int *c;
 };

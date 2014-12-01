@@ -5,11 +5,30 @@
 #ifndef STRATEGY_H
 #define STRATEGY_H
 
+#define RANDOMMAX 15
+#define PATHMAX 260
+
+enum decision {N=0,BUY, SELL};
+
+//enum FLAG {LONG=0, SHORT};
+
 class strategy {
 public:
-	decision investment(double upperbound, double lowerbound);
+	strategy();
+	void init(double lowerbound_init, double upperbound_init);
+	void trade(double *pricepath);
+	decision order[PATHMAX];
+	// FLAG fund; prevents from double Buy buy or Sell Sell, flag purpose
 private:
-	enum decision {hold=0,buy, sell, NA};
+	bool betweenintervals(double price);
+	bool belowintervals(double price);
+	bool aboveintervals(double price);
+    bool islong(int curr_index, decision *order, double price);
+    bool isshort(int curr_index, decision *order);
+    bool isbeginning(int curr_index);
+    bool isendandhold(int curr_index, decision *order);
+	double upperbound;
+	double lowerbound;
 };
 
 #endif
