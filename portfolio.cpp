@@ -37,12 +37,14 @@ void portfolio::inventory(decision *order)
 
 void portfolio::countportreturn(decision *order, double *pricepath)
 {
+    
     for(int i = 0; i<=PATHMAX; i++) {
         if (i==0) {
             dailyreturn[i]=0;
             cummulativereturn[i] = 1;
+            continue;
         }
-        else if (inventoryheld[i]==1 && order[i]==BUY) {
+        if (inventoryheld[i]==1 && order[i]==BUY) {
             dailyreturn[i] = 0;
             cummulativereturn[i] = cummulativereturn[i-1]*(1+dailyreturn[i]);
         }

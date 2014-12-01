@@ -130,3 +130,21 @@ bool strategy::isendandhold(int curr_index, decision *order)
     else return false;
 }
 
+std::string strategy::tradedec(decision order)
+{
+    if (order==BUY)
+    {
+        return "BUY";
+    }
+    else if (order==N)
+    {
+        return "DO NOTHING";
+    }
+    else if (order==SELL)
+    {
+        return "SELL";
+    }
+    else
+        return "DO NOTHING";
+}
+

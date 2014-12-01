@@ -12,7 +12,7 @@ int main(int argc, const char * argv[])
 {
 	// Opening message
 	std::cout << "Cummulative portfolio return by Dendi Suhubdy" << std::endl;
-    std::cout << "Kensho Interview" << std::endl;
+    std::cout << "Kensho Coding Puzzle" << std::endl;
     
 	// Create a new stock object
 	stock *equity = new stock;
@@ -37,17 +37,18 @@ int main(int argc, const char * argv[])
     
     stocks->countportreturn(strat->order, equity->pricepath);
     
+    
 	for (int i=0; i<=PATHMAX; i++) {
 		std::cout << equity->pricepath[i]
                   << " trade to: "
-                  << strat->order[i]
-                  << " inventory holding is "
-                  << stocks->inventoryheld[i]
-                  << " shares. Daily return is "
-                  << (stocks->dailyreturn[i])*100
-                  << "%. Cummulative return: "
-                  << (stocks->cummulativereturn[i]-1)*100
-                  << "%."
+                  << strat->tradedec(strat->order[i])
+                  //<< " inventory holding is "
+                  //<< stocks->inventoryheld[i]
+                  //<< " shares.
+                  //<< " Daily return is "
+                  //<< (stocks->dailyreturn[i])*100
+                  << " Cummulative portfolio value since start: "
+                  << stocks->cummulativereturn[i]
                   << std::endl;
 	}
     

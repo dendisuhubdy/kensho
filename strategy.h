@@ -5,6 +5,9 @@
 #ifndef STRATEGY_H
 #define STRATEGY_H
 
+#include <iostream>
+#include <cstring>
+
 #define RANDOMMAX 15
 #define PATHMAX 260
 
@@ -17,6 +20,7 @@ public:
 	void init(double lowerbound_init, double upperbound_init);
 	void trade(double *pricepath);
 	decision order[PATHMAX];
+    std::string tradedec(decision order);
 	// FLAG fund; prevents from double Buy buy or Sell Sell, flag purpose
 private:
 	bool betweenintervals(double price);
