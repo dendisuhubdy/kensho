@@ -16,7 +16,7 @@ double stock::price(int time)
 {
 	double result;
 	double sum;
-	for (int i=0; i<=15; i++) {
+	for (int i=0; i<=RANDOMMAX; i++) {
 			sum += (sin(time*c[i]));
 	}
 	result = 100 + sum;

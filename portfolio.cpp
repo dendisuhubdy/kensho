@@ -3,8 +3,7 @@
 void portfolio::init(double investment, decision *order)
 {
 	capital = investment;
-    this->inventory(order);
-    portfoliovalue = capital;
+  this->inventory(order);
 }
 
 void portfolio::inventory(decision *order)
@@ -37,28 +36,58 @@ void portfolio::inventory(decision *order)
 
 void portfolio::countportreturn(decision *order, double *pricepath)
 {
-    
+
     for(int i = 0; i<=PATHMAX; i++) {
         if (i==0) {
-            dailyreturn[i]=0;
-            cummulativereturn[i] = 1;
-            continue;
+          dailyreturn[i]=0;
+          cummulativereturn[i] = 1;
+					portfoliovalue[i] = capital;
+					shares[i] = (this->sharesheld(capital,pricepath[i]));
+					cash[i] = (this->cashheld(capital,pricepath[i]));
+					cummulativereturn[i] = ((portfoliovalue[i] - capital) / capital )*100;
         }
-        if (inventoryheld[i]==1 && order[i]==BUY) {
-            dailyreturn[i] = 0;
-            cummulativereturn[i] = cummulativereturn[i-1]*(1+dailyreturn[i]);
+        else if (inventoryheld[i]==1 && order[i]==BUY) {
+          dailyreturn[i] = 0;
+					shares[i] = (this->sharesheld(portfoliovalue[i-1],pricepath[i]));
+					cash[i] = this->cashheld(portfoliovalue[i-1],pricepath[i]);
+					portfoliovalue[i] = this->portfvalue(shares[i], pricepath[i]) + cash[i];
+					cummulativereturn[i] = ((portfoliovalue[i] - capital) / capital )*100;
         }
         else if(inventoryheld[i]==0 && order[i]==SELL) {
-            dailyreturn[i] = (pricepath[i] - pricepath[i-1])/pricepath[i-1];
-            cummulativereturn[i] = cummulativereturn[i-1]*(1+dailyreturn[i]);
+          dailyreturn[i] = (pricepath[i] - pricepath[i-1])/pricepath[i-1];
+					shares[i] = shares[i-1];
+					cash[i] = cash[i-1];
+					portfoliovalue[i] = this->portfvalue(shares[i], pricepath[i]) + cash[i-1];
+					cummulativereturn[i] = ((portfoliovalue[i] - capital) / capital )*100;
         }
         else if (inventoryheld[i]==1) {
-            dailyreturn[i] = (pricepath[i] - pricepath[i-1])/pricepath[i-1];
-            cummulativereturn[i] = cummulativereturn[i-1]*(1+dailyreturn[i]);
+					dailyreturn[i] = (pricepath[i] - pricepath[i-1])/pricepath[i-1];
+					shares[i] = shares[i-1];
+					cash[i] = cash[i-1];
+					portfoliovalue[i] = this->portfvalue(shares[i], pricepath[i-1]) + cash[i-1];
+					cummulativereturn[i] = ((portfoliovalue[i] - capital) / capital )*100;
         }
         else if(inventoryheld[i]==0) {
-            dailyreturn[i] = 0;
-            cummulativereturn[i] = cummulativereturn[i-1]*(1+dailyreturn[i]);
+					dailyreturn[i] = 0;
+					shares[i] = shares[i-1];
+					cash[i] = cash[i-1];
+					portfoliovalue[i] = portfoliovalue[i-1];
+					cummulativereturn[i] = ((portfoliovalue[i] - capital) / capital )*100;
         }
     }
+}
+
+int portfolio::sharesheld(double portvalue, double price)
+{
+	return (portvalue/price);
+}
+
+double portfolio::portfvalue(int shares, double price)
+{
+	return (shares*price);
+}
+
+double portfolio::cashheld(double portvalue, double price)
+{
+	return fmod(portvalue,price);
 }
